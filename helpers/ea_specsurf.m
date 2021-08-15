@@ -8,6 +8,10 @@ end
 
 len = get(surfc,'ZData');
 
+if length(color)==1
+    color=repmat(color,1,3);
+end
+
 cd = zeros([size(len),3]);
 cd(:,:,1) = color(1);
 
@@ -24,10 +28,12 @@ cd = cd+0.01*randn(size(cd));
 set(surfc,'FaceColor','interp');
 set(surfc,'CData',cd);
 
-try % for patches
+if isa(surfc,'matlab.graphics.primitive.Patch') % for patches
     Vertices = get(surfc,'Vertices');
     cd = zeros(size(Vertices));
-    cd(:) = color(1);
+    cd(:,1) = color(1);  
+    cd(:,2) = color(2);
+    cd(:,3) = color(3);
     set(surfc,'FaceVertexCData',cd);
 end
 
